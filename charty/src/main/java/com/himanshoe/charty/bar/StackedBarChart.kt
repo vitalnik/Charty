@@ -46,7 +46,7 @@ fun StackedBarChart(
         throw IllegalArgumentException("Colors count should be total to number of values in StackedBarData's yValue")
     }
 
-    val maxYValueState = rememberSaveable { mutableStateOf(stackBarData.maxYValue()) }
+    val maxYValueState = remember { mutableStateOf(stackBarData.maxYValue()) }
     val maxYValue = maxYValueState.value
     val barWidth = remember { mutableStateOf(0F) }
     val clickedBar = remember { mutableStateOf(Offset(-10F, -10F)) }
