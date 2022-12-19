@@ -60,10 +60,10 @@ fun BarChart(
     axisConfig: AxisConfig = AxisConfigDefaults.axisConfigDefaults(isSystemInDarkTheme()),
     barConfig: BarConfig = BarConfigDefaults.barConfigDimesDefaults()
 ) {
-    val maxYValueState = rememberSaveable { mutableStateOf(barData.maxYValue()) }
+    //val maxYValueState = rememberSaveable { mutableStateOf(barData.maxYValue()) }
     val clickedBar = remember { mutableStateOf(Offset(-10F, -10F)) }
 
-    val maxYValue = maxYValueState.value
+    val maxYValue = barData.maxYValue()
     val barWidth = remember { mutableStateOf(0F) }
 
     Canvas(

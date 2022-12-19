@@ -4,7 +4,7 @@ data class BarConfig(
     val hasRoundedCorner: Boolean = false
 )
 
-internal object BarConfigDefaults {
+object BarConfigDefaults {
 
     fun barConfigDimesDefaults() = BarConfig(
         hasRoundedCorner = false

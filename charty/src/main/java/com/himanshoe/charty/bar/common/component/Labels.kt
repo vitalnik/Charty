@@ -25,10 +25,11 @@ internal fun DrawScope.drawBarLabel(
             drawText(
                 xValue.toString(),
                 topLeft.x.plus(barWidth.div(2)),
-                topLeft.y.plus(barHeight.plus(heightDisplacement)),
+                //topLeft.y.plus(barHeight.plus(heightDisplacement)),
+                topLeft.y.plus(barHeight.plus(24f)),
                 Paint().apply {
                     color = labelTextColor.toArgb()
-                    textSize = size.width.div(textSizeFactor).div(divisibleFactor)
+                    textSize = 24f //size.width.div(textSizeFactor).div(divisibleFactor)
                     textAlign = Paint.Align.CENTER
                 }
             )

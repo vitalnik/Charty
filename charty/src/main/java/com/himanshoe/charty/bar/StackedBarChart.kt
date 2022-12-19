@@ -31,6 +31,7 @@ import com.himanshoe.charty.common.axis.AxisConfigDefaults
 import com.himanshoe.charty.common.axis.drawYAxisWithLabels
 import com.himanshoe.charty.common.dimens.ChartDimens
 import com.himanshoe.charty.common.dimens.ChartDimensDefaults
+import kotlin.math.ceil
 
 @Composable
 fun StackedBarChart(
@@ -46,9 +47,8 @@ fun StackedBarChart(
         throw IllegalArgumentException("Colors count should be total to number of values in StackedBarData's yValue")
     }
 
-    val maxYValueState = remember { mutableStateOf(stackBarData.maxYValue()) }
-    val maxYValue = maxYValueState.value
-    val barWidth = remember { mutableStateOf(0F) }
+    val maxYValue = stackBarData.maxYValue()
+    var barWidth = 0F
     val clickedBar = remember { mutableStateOf(Offset(-10F, -10F)) }
 
     Canvas(
@@ -65,18 +65,19 @@ fun StackedBarChart(
                 })
             }
     ) {
-        barWidth.value = size.width.div(stackBarData.count().times(1.2F))
+        barWidth =
+            size.width.div(stackBarData.count().times(if (stackBarData.count() > 1) 1.2F else 1f))
         val yScalableFactor = size.height.div(maxYValue)
 
         stackBarData.reversed().forEachIndexed { index, stackBarDataIndividual ->
             drawIndividualStackedBar(
-                index, stackBarDataIndividual, barWidth.value, yScalableFactor, barConfig, colors
+                index, stackBarDataIndividual, barWidth, yScalableFactor, barConfig, colors
             )
         }
         drawLabels(
             stackBarData,
             yScalableFactor,
-            barWidth.value,
+            barWidth,
             axisConfig,
             clickedBar.value,
             onBarClick,
@@ -97,23 +98,39 @@ private fun DrawScope.drawLabels(
     stackBarData.forEachIndexed { index, stackBarDataIndividual ->
         val barHeight = stackBarDataIndividual.yValue.sum().times(yScalableFactor)
         val barTopLeft = getTopLeft(
-            index, width, size, stackBarDataIndividual.yValue.sum(), yScalableFactor
+            index = index,
+            barWidth = width,
+            size = size,
+            yValue = stackBarDataIndividual.yValue.sum(),
+            yScalableFactor = yScalableFactor,
+            widthExtensionMultiplier = if (stackBarData.count() > 1) 1.2F else 1f,
         )
         val barTopRight = getTopRight(
-            index, width, size, stackBarDataIndividual.yValue.sum(), yScalableFactor
+            index = index,
+            barWidth = width,
+            size = size,
+            yValue = stackBarDataIndividual.yValue.sum(),
+            yScaleFactor = yScalableFactor,
+            widthExtensionMultiplier = if (stackBarData.count() > 1) 1.2F else 1f,
         )
         if (clickedBarValue.x in (barTopLeft.x..barTopRight.x)) {
             onBarClick(stackBarDataIndividual)
         }
         if (axisConfig.showXLabels) {
-            drawBarLabel(
-                stackBarDataIndividual.xValue,
-                width.times(1.4F),
-                barHeight,
-                barTopLeft,
-                stackBarData.count(),
-                labelTextColor
-            )
+
+            val showLabel = (index % (ceil(stackBarData.count() / 20.0)).toInt()) == 0
+
+            if (showLabel) {
+                drawBarLabel(
+                    stackBarDataIndividual.xValue,
+                    width.times(if (stackBarData.count() > 1) 1.4F else 1f),
+                    barHeight,
+                    barTopLeft,
+                    stackBarData.count(),
+                    labelTextColor
+                )
+            }
+
         }
     }
 }

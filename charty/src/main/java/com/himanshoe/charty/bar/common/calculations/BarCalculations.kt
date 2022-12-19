@@ -8,9 +8,10 @@ internal fun getTopLeft(
     barWidth: Float,
     size: Size,
     yValue: Float,
-    yScalableFactor: Float
+    yScalableFactor: Float,
+    widthExtensionMultiplier: Float = 1.2f
 ) = Offset(
-    x = index.times(barWidth.times(1.2F)),
+    x = index.times(barWidth.times(widthExtensionMultiplier)),
     y = size.height.minus(yValue.times(yScalableFactor))
 )
 
@@ -18,8 +19,9 @@ internal fun getStackedTopLeft(
     index: Int,
     barWidth: Float,
     barHeight: Float,
+    widthExtensionMultiplier: Float = 1.2f
 ) = Offset(
-    x = index.times(barWidth.times(1.2F)),
+    x = index.times(barWidth.times(widthExtensionMultiplier)),
     y = (barHeight)
 )
 
@@ -28,8 +30,10 @@ internal fun getTopRight(
     barWidth: Float,
     size: Size,
     yValue: Float,
-    yScaleFactor: Float
+    yScaleFactor: Float,
+    widthExtensionMultiplier: Float = 1.2f
+
 ) = Offset(
-    x = index.plus(1).times(barWidth.times(1.2F)),
+    x = index.plus(1).times(barWidth.times(widthExtensionMultiplier)),
     y = size.height.minus(yValue.times(yScaleFactor))
 )

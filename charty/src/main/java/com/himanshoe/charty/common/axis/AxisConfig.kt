@@ -12,12 +12,22 @@ data class AxisConfig(
     val textColor: Color,
 )
 
-internal object AxisConfigDefaults {
+object AxisConfigDefaults {
 
     fun axisConfigDefaults(isDarkMode: Boolean) = AxisConfig(
         xAxisColor = Color.LightGray,
         showAxis = true,
-        isAxisDashed = false,
+        isAxisDashed = true,
+        showUnitLabels = true,
+        showXLabels = true,
+        yAxisColor = Color.LightGray,
+        textColor = if (isDarkMode) Color.White else Color.Black
+    )
+
+    fun axisConfigDefaults2(isDarkMode: Boolean) = AxisConfig(
+        xAxisColor = Color.LightGray,
+        showAxis = false,
+        isAxisDashed = true,
         showUnitLabels = true,
         showXLabels = true,
         yAxisColor = Color.LightGray,

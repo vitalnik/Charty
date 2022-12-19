@@ -27,7 +27,7 @@ internal fun DrawScope.drawYAxisWithLabels(
                 it.nativeCanvas.apply {
                     drawText(
                         getLabelText(labelScaleFactor.times(4.minus(index)), isCandleChart),
-                        0F.minus(25),
+                        16f,
                         yAxisEndPoint.minus(10),
                         Paint().apply {
                             color = textColor.toArgb()
@@ -52,7 +52,8 @@ internal fun DrawScope.drawYAxisWithLabels(
 }
 
 private fun getLabelText(value: Float, isCandleChart: Boolean): String {
-    val pattern = if (isCandleChart) "#" else "#.##"
+    //val pattern = if (isCandleChart) "#" else "#.##"
+    val pattern = "#"
     return DecimalFormat(pattern).format(value).toString()
 }
 

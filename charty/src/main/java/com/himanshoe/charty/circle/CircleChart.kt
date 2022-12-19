@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -45,7 +46,7 @@ fun CircleChart(
     config: CircleConfig = CircleConfigDefaults.circleConfigDefaults(),
     isAnimated: Boolean = true,
 ) {
-    val maxYValueState = rememberSaveable { mutableStateOf(circleData.maxYValue()) }
+    val maxYValueState = remember { derivedStateOf { circleData.maxYValue() } }
     val maxYValue = maxYValueState.value
     val angleFactor = if (config.maxValue != null) 360.div(config.maxValue) else 360.div(maxYValue)
 
